@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>How's Your Day?</title>
+<style>
+    body {
+        font-family: 'Comic Sans MS', cursive;
+        text-align: center;
+        background-color: #ffe6f2;
+        color: #ff66b2;
+    }
+    h1 {
+        animation: bounce 1s infinite alternate;
+    }
+    @keyframes bounce {
+        to { transform: translateY(-10px); }
+    }
+    input, button {
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        margin: 5px;
+        font-size: 16px;
+    }
+    button {
+        background-color: #ff66b2;
+        color: white;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #ff3385;
+    }
+</style>
+</head>
+<body>
+
+<audio autoplay loop>
+    <source src="lagu.mp3" type="audio/mpeg">
+</audio>
+
+<h1>💖 How's Your Day? 💖</h1>
+<input type="text" id="jawaban" placeholder="Type your answer...">
+<button onclick="kirimJawaban()">Send</button>
+
+<p id="respon"></p>
+
+<script>
+    const scriptURL = "PASTE_URL_WEB_APP_DISINI"; // ganti dengan URL dari Google Apps Script
+
+    function kirimJawaban() {
+        let jawaban = document.getElementById("jawaban").value;
+        if (jawaban.trim() === "") {
+            alert("Please type something!");
+            return;
+        }
+        
+        fetch(scriptURL, {
+            method: 'POST',
+            body: JSON.stringify({ jawaban: jawaban })
+        })
+        .then(response => {
+            document.getElementById("respon").innerHTML = "🎉 Thanks for your answer! 🎉";
+            document.getElementById("jawaban").value = "";
+        })
+        .catch(error => {
+            document.getElementById("respon").innerHTML = "❌ Failed to send, try again.";
+            console.error(error);
+        });
+    }
+</script>
+
+</body>
+</html>
